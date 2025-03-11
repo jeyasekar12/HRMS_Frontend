@@ -48,7 +48,7 @@ function Layout() {
       {/* Main Content */}
       <div className='flex-1 overflow-y-auto'>
         <Navbar />
-        <div className='p-4 2xl:px-10'>
+        <div className=''>
           <Outlet />
         </div>
       </div>
@@ -133,7 +133,7 @@ function App() {
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
           <Route element={<Layout />}>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<Overview />} />
             <Route path='/home' element={<Home />} />
             <Route path='/overview' element={<Overview />} />
             <Route path='/employe-management' element={<EmployeManagement />} />

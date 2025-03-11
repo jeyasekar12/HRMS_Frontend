@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenSidebar } from '../redux/slices/authslice';
 import { MdNotificationAdd, MdNotificationImportant, MdNotificationsActive, MdOutlineSearch } from 'react-icons/md';
 import UserAvatar from './useravatar';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { auth } from '../firebase/firebase';
 
 const Navbar = () => {
   const { user } = useSelector((state) => {
@@ -11,6 +12,19 @@ const Navbar = () => {
   });
 
   const dispatch = useDispatch();
+
+  const [userDetails, setUserDetails] = useState('');
+
+  const fetchData = async () => {
+    auth.onAuthStateChanged(async (user) => {
+      console.log(user, 'userrrr');
+      setUserDetails(user);
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className='flex justify-end gap-5 items-center bg-[#EEEEEE] px-4 py-3 2xl:py-4 sticky z-10 top-0'>
@@ -36,7 +50,11 @@ const Navbar = () => {
       </div>
 
       <div className='flex gap-2 items-center mt-1'>
-        <UserAvatar />
+        {/* <p className='bold text-lg'>{userDetails?.displayName || ''}</p> */}
+        <div className='flex justify-center'>
+          <img src={userDetails?.photoURL || 'default-image.jpg'} alt='User' width={40} className='rounded-2xl' />
+        </div>
+        {/* <UserAvatar /> */}
       </div>
     </div>
   );

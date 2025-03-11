@@ -2,11 +2,13 @@ import React from 'react';
 import { FaTasks, FaTrashAlt, FaUsers } from 'react-icons/fa';
 import { MdDashboard, MdOutlinePendingActions, MdSettings, MdTaskAlt } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { setOpenSidebar } from '../redux/slices/authslice';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import logo from '../assets/logo.svg';
+import { toast } from 'react-toastify';
+import { auth } from '../firebase/firebase';
 
 const linkData = [
   {
@@ -47,6 +49,7 @@ const linkData = [
 ];
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const { user } = useSelector((state) => {
     return state.auth;
   });
@@ -88,6 +91,17 @@ const Sidebar = () => {
     path: PropTypes.string.isRequired,
   };
 
+  async function handlelogout() {
+    try {
+      await auth.signOut();
+      navigate('/log-in');
+      toast.success('logout sucess');
+    } catch (error) {
+      console.log('errr');
+      toast.error(error.message);
+    }
+  }
+
   return (
     <div className='w-full h-full flex flex-col gap-6 p-5 bg-black'>
       {/* <p className='bg-orange-400 p-2 rounded-full '> */}
@@ -105,7 +119,10 @@ const Sidebar = () => {
       </div>
 
       <div>
-        <button className='w-full flex gap-2 items-center text-lg text-white dark:text-white'>
+        <button
+          className='w-full lg:w-3/4 flex gap-2 px-3 py-2 rounded  items-center text-lg text-white dark:text-white bg-[#FF698D] mb-3'
+          onClick={handlelogout}
+        >
           <MdSettings />
           <span>Logout</span>
         </button>
