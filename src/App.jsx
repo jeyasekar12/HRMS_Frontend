@@ -8,22 +8,23 @@ import clsx from 'clsx';
 import { ToastContainer } from 'react-toastify';
 
 // Pages
-import SignUp from './pages/signup';
-import Login from './pages/login';
-import Home from './pages/home';
-import ForgetPass from './pages/forgetPass';
 
 // Components
-import Sidebar from './components/sidebar';
-import Navbar from './components/navbar';
+
 import { IoClose } from 'react-icons/io5';
 import { setOpenSidebar } from './redux/slices/authslice';
-import Overview from './pages/Overview';
+
+import Dashboard from './pages/Dashboard';
+import Sidebar from './Layout/sidebar';
+import SignUp from './Auth/signup';
+import Login from './Auth/login';
+import Navbar from './Layout/navbar';
+import ForgetPass from './Auth/forgetPass';
 import EmployeManagement from './pages/EmployeManagement';
 import Attendance from './pages/Attendance';
 import Leave from './pages/Leave';
+import { Settings } from 'lucide-react';
 import Payroll from './pages/Payroll';
-import Settings from './pages/Settings';
 import Reports from './pages/Reports';
 
 /**
@@ -129,13 +130,14 @@ function App() {
         {/* Public Routes */}
         <Route path='/log-in' element={<Login />} />
         <Route path='/sign-up' element={<SignUp />} />
+        <Route path='/forget-password' element={<ForgetPass />} />
 
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
           <Route element={<Layout />}>
-            <Route path='/' element={<Overview />} />
-            <Route path='/home' element={<Home />} />
-            <Route path='/overview' element={<Overview />} />
+            <Route index path='/' element={<Navigate to='/dashboard' />} />
+            {/* <Route path='/home' element={<Home />} /> */}
+            <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/employe-management' element={<EmployeManagement />} />
             <Route path='/attendance' element={<Attendance />} />
             <Route path='/leave' element={<Leave />} />
